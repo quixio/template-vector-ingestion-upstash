@@ -104,7 +104,7 @@ deployments:
       replicas: 1
     publicAccess:
       enabled: true
-      urlPrefix: streamlitdashboard-final
+      urlPrefix: dashboard-final
     desiredStatus: Running
     variables:
       - name: collectionname
