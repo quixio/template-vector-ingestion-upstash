@@ -73,7 +73,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: false
-        value: documents_pt1.csv
+        value: documents_pt2.csv
   - name: Streamlit dashboard
     application: Streamlit dashboard
     deploymentType: Service
