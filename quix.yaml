@@ -110,7 +110,7 @@ deployments:
       cpu: 500
       memory: 1000
       replicas: 1
-    desiredStatus: Running
+    desiredStatus: Stopped
     variables:
       - name: input
         inputType: InputTopic
@@ -146,3 +146,10 @@ topics:
       replicationFactor: 1
       retentionInMinutes: 10080
       retentionInBytes: 268435456
+  - name: raw-data-v2
+    persisted: false
+    configuration:
+      partitions: 1
+      replicationFactor: 1
+      retentionInMinutes: 10080
+      retentionInBytes: 10485760
