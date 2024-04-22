@@ -68,12 +68,12 @@ deployments:
         inputType: OutputTopic
         description: Name of the output topic to write into
         required: true
-        value: raw-documents-v1
+        value: raw-data-v2
       - name: csv_file
         inputType: FreeText
         description: ''
         required: false
-        value: documents_pt2.csv
+        value: documents_pt1.csv
   - name: Streamlit dashboard
     application: Streamlit dashboard
     deploymentType: Service
