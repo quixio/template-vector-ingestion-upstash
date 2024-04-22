@@ -4,7 +4,7 @@ variables:
   - name: output
     inputType: OutputTopic
     description: Name of the output topic to write into
-    defaultValue: raw-documents-e
+    defaultValue: raw-data-v1
     required: true
   - name: csv_file
     inputType: FreeText
