@@ -20,7 +20,7 @@ try:
     # Initialize the QdrantClient
     qdrant = QdrantClient(
         url=os.environ['qdrant_url'],
-        api_key=os.environ['qdrant_apikey'],
+        api_key=os.environ['upstash_apikey'],
     )
     # Get the collection to search
     qdrant.get_collection(collection_name=collectionname)

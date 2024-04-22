@@ -3,7 +3,11 @@ from sentence_transformers import SentenceTransformer
 from qdrant_client import models, QdrantClient
 import os
 
-qdrant = QdrantClient(path=f"./{os.environ['vectordbname']}") # persist a Qdrant DB on the filesystem
+qdrant = QdrantClient(
+    url="https://620342be-1e5e-401c-98da-42bcaddaed57.us-east4-0.gcp.cloud.qdrant.io:6333", 
+    api_key=os.environ['upstash_apikey'],
+)
+
 encoder = SentenceTransformer('all-MiniLM-L6-v2') # Model to create embeddings
 collection = os.environ['collectionname']
 
@@ -20,7 +24,7 @@ qdrant.recreate_collection(
 def ingest_vectors(row):
 
   single_record = models.PointStruct(
-    id=row['index'],
+    id=row['doc_uuid'],
     vector=row['embeddings'],
     payload=row
     )
@@ -30,7 +34,7 @@ def ingest_vectors(row):
       points=[single_record]
     )
 
-  print(f'Ingested vector entry id: "{row["index"]}"...')
+  print(f'Ingested vector entry id: "{row["doc_uuid"]}"...')
 
 app = Application.Quix(
     "vectorizer",

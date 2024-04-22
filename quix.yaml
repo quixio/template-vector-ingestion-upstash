@@ -45,8 +45,8 @@ deployments:
         description: ''
         required: false
         value: documents_pt1.csv
-  - name: Ingest to Qdrant Cloud VectorDB
-    application: Ingest to Qdrant Cloud VectorDB
+  - name: Ingest to Upstash VectorDB
+    application: Ingest to Upstash VectorDB
     deploymentType: Service
     version: e5186852ffa7106831f5f334a921f05a26ef13bb
     resources:
@@ -70,11 +70,11 @@ deployments:
         description: ''
         required: false
         value: books-catalog
-      - name: qdrant_apikey
+      - name: upstash_apikey
         inputType: Secret
         description: ''
         required: true
-        secretKey: qdrant_apikey
+        secretKey: upstash_apikey
   - name: PT 2 | produce data from CSV
     application: CSV data
     deploymentType: Job
@@ -112,11 +112,11 @@ deployments:
         description: ''
         required: false
         value: books-catalog
-      - name: qdrant_apikey
+      - name: upstash_apikey
         inputType: Secret
         description: ''
         required: false
-        secretKey: qdrant_apikey
+        secretKey: upstash_apikey
       - name: qdrant_url
         inputType: FreeText
         description: ''

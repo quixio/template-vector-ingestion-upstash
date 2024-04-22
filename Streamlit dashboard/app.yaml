@@ -6,10 +6,10 @@ variables:
     description: ''
     defaultValue: books-catalog
     required: false
-  - name: qdrant_apikey
+  - name: upstash_apikey
     inputType: Secret
     description: ''
-    defaultValue: qdrant_apikey
+    defaultValue: upstash_apikey
     required: false
   - name: qdrant_url
     inputType: FreeText

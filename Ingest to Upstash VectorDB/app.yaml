@@ -1,21 +1,26 @@
-name: Ingest to Qdrant VectorDB
+name: Ingest to Upstash VectorDB
 language: python
 variables:
   - name: input
     inputType: InputTopic
     description: This is the input topic for demo data
-    defaultValue: embeddings-sbert
+    defaultValue: embeddings-sbert-v1
     required: true
   - name: vectordbname
     inputType: FreeText
     description: ''
-    defaultValue: myvectordb
+    defaultValue: quix-demo
     required: true
   - name: collectionname
     inputType: FreeText
     description: ''
-    defaultValue: mycollection
+    defaultValue: books-catalog
     required: false
+  - name: upstash_apikey
+    inputType: Secret
+    description: ''
+    defaultValue: upstash_apikey
+    required: true
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
