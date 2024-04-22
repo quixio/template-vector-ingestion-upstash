@@ -1,6 +1,6 @@
 from quixstreams import Application
 from sentence_transformers import SentenceTransformer
-from qdrant_client import models, QdrantClient
+from upstash_vector import Index
 import os
 
 qdrant = QdrantClient(
@@ -23,16 +23,13 @@ qdrant.recreate_collection(
 # Define the ingestion function
 def ingest_vectors(row):
 
-  single_record = models.PointStruct(
-    id=row['doc_uuid'],
-    vector=row['embeddings'],
-    payload=row
-    )
+  index = Index(url="https://active-arachnid-42631-eu1-vector.upstash.io", token="********")
 
-  qdrant.upload_points(
-      collection_name=collection,
-      points=[single_record]
-    )
+  index.upsert(
+    vectors=[
+        ("id1", "Enter data as string", {"metadata_field": "metadata_value"}),
+    ]
+  )
 
   print(f'Ingested vector entry id: "{row["doc_uuid"]}"...')
 
