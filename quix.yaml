@@ -102,6 +102,26 @@ deployments:
         description: ''
         required: false
         value: https://620342be-1e5e-401c-98da-42bcaddaed57.us-east4-0.gcp.cloud.qdrant.io:6333
+  - name: Create embeddings
+    application: Create Embeddings
+    deploymentType: Service
+    version: latest
+    resources:
+      cpu: 500
+      memory: 1000
+      replicas: 1
+    desiredStatus: Running
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: false
+        value: raw-documents-v1
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write to.
+        required: false
+        value: embeddings-sbert-v1
 
 # This section describes the Topics of the data pipeline
 topics:
