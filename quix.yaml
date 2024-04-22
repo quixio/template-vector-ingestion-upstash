@@ -6,26 +6,6 @@ metadata:
 
 # This section describes the Deployments of the data pipeline
 deployments:
-  - name: Create embeddings
-    application: Create Embeddings
-    deploymentType: Service
-    version: latest
-    resources:
-      cpu: 500
-      memory: 1000
-      replicas: 1
-    desiredStatus: Running
-    variables:
-      - name: input
-        inputType: InputTopic
-        description: Name of the input topic to listen to.
-        required: false
-        value: raw-documents-v1
-      - name: output
-        inputType: OutputTopic
-        description: Name of the output topic to write to.
-        required: false
-        value: embeddings-sbert-v1
   - name: PT1 | Produce data from CSV
     application: CSV data
     deploymentType: Job
