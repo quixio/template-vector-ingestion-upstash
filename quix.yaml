@@ -9,7 +9,7 @@ deployments:
   - name: Create embeddings
     application: Create Embeddings
     deploymentType: Service
-    version: abb20742de9e78fa97766f59f882b71f6d71f3f1
+    version: latest
     resources:
       cpu: 200
       memory: 1000
@@ -29,7 +29,7 @@ deployments:
   - name: PT1 | Produce data from CSV
     application: CSV data
     deploymentType: Job
-    version: d019d8ce457269c4ff0cf20872dcb176d9e0729e
+    version: latest
     resources:
       cpu: 200
       memory: 500
@@ -48,7 +48,7 @@ deployments:
   - name: Ingest to Upstash VectorDB
     application: Ingest to Upstash VectorDB
     deploymentType: Service
-    version: e5186852ffa7106831f5f334a921f05a26ef13bb
+    version: latest
     resources:
       cpu: 200
       memory: 500
@@ -78,7 +78,7 @@ deployments:
   - name: PT 2 | produce data from CSV
     application: CSV data
     deploymentType: Job
-    version: d019d8ce457269c4ff0cf20872dcb176d9e0729e
+    version: latest
     resources:
       cpu: 200
       memory: 500
@@ -97,7 +97,7 @@ deployments:
   - name: Streamlit dashboard
     application: Streamlit dashboard
     deploymentType: Service
-    version: finalsearch
+    version: latest
     resources:
       cpu: 200
       memory: 1000
