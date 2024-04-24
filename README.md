@@ -34,8 +34,6 @@ When running the project, you'll ingest content in two passes,
    _We can assume it matched because the words in the description are semantically similar to the query: “planet" is semantically close to "star" and "struggles" is semantically close to "wars"._
 
 
-
-
 ### Run the second ingestion test
 
 1. Press play on the second job (with the name that starts with “PT2…”)<br><br>
