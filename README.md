@@ -1,12 +1,12 @@
 # Continuous Vector Ingestion
 
-This template shows you how to continuously ingest documents into a vector store using Apache Kafka. For simplicity, this use case is illustrated by streaming data from small CSV files that represent updates to a book catalog. The descriptive text from the catalog entries is then embedded and then ingested it into a vector store for semantic search. In a production scenario, you might use Change Data Capture (CDC) to ensure that the vector store is in sync with the book catalog database. For more information on the production use cases that is template supports, see the [accompanying blog article](https://quix.io/blog/continuously-ingest-documents-into-a-vector-store-using-quix-qdrant-and-apache-kafka).
+This template shows you how to continuously ingest documents into a vector store using Apache Kafka. For simplicity, this use case is illustrated by streaming data from small CSV files that represent updates to a book catalog. The descriptive text from the catalog entries is then embedded and then ingested it into a vector store for semantic search. In a production scenario, you might use Change Data Capture (CDC) to ensure that the vector store is in sync with the book catalog database.
 
 This template uses the following open source libraries:
 
 * **[Quix Streams](https://github.com/quixio/quix-streams)** to produce data to, and consume data from, Apache Kafka.
 
-* **[Qdrant Client](https://github.com/qdrant/qdrant-client)** to create a database to store embeddings and for basic similarity search
+* **[Upstash Vector Python SDK](https://github.com/upstash/vector-py)** to connect to a vector databases that stores embeddings and for performing basic similarity searches.
 
 The following screenshot illustrates the architecture of the resulting pipeline in Quix Cloud:
 ![Pipeline sscreenshot](https://uploads-ssl.webflow.com/64a7eed956ba9b9a3c62401d/65c3777fd9390c70307c3f25_VKG-idlyZnJFKXrhnOdwPTCGtWfE_UE9Lpi2Q4nmidWXBZ40hvpeUeVoxqslaH-5GUR5T69_gYLtn051sHcsptfj2JV5SDlFNkx071kPfBpBo4ZwdRRToNt-pNjQmVeJ57UMP0Yw9ahWLkpL13Cu8Qs.png)
@@ -18,7 +18,7 @@ You can also try out a minimal version of this pipeline in a [standalone Jupyter
 ## Trying it out
 To try out the pipeline, first clone the vector ingestion template (for more information on how to clone a project template, see the article ["How to create a project from a template in Quix](https://quix.io/blog/how-to-create-a-project-from-a-template")). 
 
-Before you clone the pipeline, you’ll also need to sign up for a free trial account with [Qdrant Cloud](https://cloud.qdrant.io/) (you can sign up with your GitHub or Google account). When you clone the project template in Quix, you’ll be asked for your Qdrant Cloud credentials.
+Before you clone the pipeline, you’ll also need to sign up for a free account with [Upstash](https://upstash.com/) (you can sign up with your GitHub or Google account). When you clone the project template in Quix, you’ll be asked for your Upstash credentials.
 
 When running the project, you'll ingest content in two passes, 
 * In the **first pass**, you'll add some initial entries to a "book-catalog" vector store via Kafka, then search the vector store (we've used the example query "book like star wars") to check that the data was ingested correctly.
