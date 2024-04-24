@@ -1,4 +1,4 @@
-# Continuous Vector Ingestion
+# Continuous Vector Ingestion using Quix and Upstash
 
 This template shows you how to continuously ingest documents into a vector store using Apache Kafka. For simplicity, this use case is illustrated by streaming data from small CSV files that represent updates to a book catalog. The descriptive text from the catalog entries is then embedded and then ingested it into a vector store for semantic search. In a production scenario, you might use Change Data Capture (CDC) to ensure that the vector store is in sync with the book catalog database.
 
