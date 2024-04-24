@@ -6,7 +6,7 @@ This template uses the following open source libraries:
 
 * **[Quix Streams](https://github.com/quixio/quix-streams)** to produce data to, and consume data from, Apache Kafka.
 
-* **[Upstash Vector Python SDK](https://github.com/upstash/vector-py)** to connect to a vector databases that stores embeddings and for performing basic similarity searches.
+* **[Upstash Vector Python SDK](https://github.com/upstash/vector-py)** to store the embeddings in the Upstash vector database.
 
 The following screenshot illustrates the architecture of the resulting pipeline in Quix Cloud:
 ![Pipeline sscreenshot](https://uploads-ssl.webflow.com/64a7eed956ba9b9a3c62401d/65c3777fd9390c70307c3f25_VKG-idlyZnJFKXrhnOdwPTCGtWfE_UE9Lpi2Q4nmidWXBZ40hvpeUeVoxqslaH-5GUR5T69_gYLtn051sHcsptfj2JV5SDlFNkx071kPfBpBo4ZwdRRToNt-pNjQmVeJ57UMP0Yw9ahWLkpL13Cu8Qs.png)
