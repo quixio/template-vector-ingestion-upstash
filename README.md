@@ -11,8 +11,9 @@ This template uses the following open source libraries:
 The following screenshot illustrates the architecture of the resulting pipeline in Quix Cloud:
 ![Pipeline sscreenshot](https://github.com/quixio/template-vector-ingestion-upstash/assets/116729413/a3ade223-60fb-4352-84fb-775bbfb34d8a)
 
-You can also try out a minimal version of this pipeline in a [standalone Jupyter notebook](https://github.com/quixio/tutorial-code/blob/main/notebooks/Continuously_ingest_documents_into_a_vector_store_using_Apache_Kafka.ipynb). 
-* To run it Google Colab, click [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/quixio/tutorial-code/blob/main/notebooks/Continuously_ingest_documents_into_a_vector_store_using_Apache_Kafka.ipynb) .
+You can also try out a minimal version of this pipeline in a [standalone Jupyter notebook](./continuously_ingest_documents_into_upstash_vector_store_using_quix_and_kafka.ipynb
+). 
+* To run it Google Colab, click [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/quixio/template-vector-ingestion-upstash/blob/develop/continuously_ingest_documents_into_upstash_vector_store_using_quix_and_kafka.ipynb) .
 
 ## Trying it out
 To try out the pipeline, first clone the vector ingestion template (for more information on how to clone a project template, see the article ["How to create a project from a template in Quix](https://quix.io/blog/how-to-create-a-project-from-a-template")). 
