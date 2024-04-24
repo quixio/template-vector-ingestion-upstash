@@ -28,13 +28,18 @@ When running the project, you'll ingest content in two passes,
 
 1. Press play on the first job (with the name that starts with “PT1…”)—hover your mouse over the “stopped” button to press play.<br><br>
    _This will ingest the first part of the same “sci-fi books” sample dataset that we used in the notebook._ <br><br>
-2. On the “Streamlit Dashboard service”, click the blue “launch” icon to open the search UI.<br><br>
+2. In the Upstash console, open the data browser.<br><br>
 3. Search for “book like star wars” — the top result should be “Dune”.<br><br>
+   ![Upstash search1 screenshot](https://github.com/quixio/template-vector-ingestion-upstash/assets/116729413/e7351a9c-ff26-4986-a2c0-67a23f55abed)
    _We can assume it matched because the words in the description are semantically similar to the query: “planet" is semantically close to "star" and "struggles" is semantically close to "wars"._
+
+
+
 
 ### Run the second ingestion test
 
 1. Press play on the second job (with the name that starts with “PT2…”)<br><br>
    _This will ingest the second part of the dataset with more relevant matches._ <br><br>
-2. In the Streamlit-based search UI, search for “books like star wars” again—the top result should now be “Old man’s war”, and the second result should be “Dune”.<br><br>
+2. In the Upstash data browser, search for “books like star wars” again—the top result should now be “Old man’s war”, and the second result should be “Dune”.<br><br>
+   ![Upstash search2 screenshot](https://github.com/quixio/template-vector-ingestion-upstash/assets/116729413/1c47d40b-2450-482a-a75e-653aeb4942f4)
    _We can assume that Dune has been knocked off the top spot because the new addition has a more semantically relevant description: the "term" war is almost a direct hit, and "interstellar" is probably semantically closer to the search term "star" than "planet"._
