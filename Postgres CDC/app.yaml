@@ -21,11 +21,6 @@ variables:
     description: Username of Postgres
     defaultValue: root
     required: true
-  - name: PG_PASSWORD
-    inputType: HiddenText
-    description: Password of Postgres
-    defaultValue: ''
-    required: true
   - name: PG_DATABASE
     inputType: FreeText
     description: Database name of Postgres
