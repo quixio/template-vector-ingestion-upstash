@@ -1,32 +1,35 @@
-# Stage 2: Building your PostgreSQL environment
-FROM python:3.11.1-slim-buster as postgres-env
+# Use the official Python image as the base image
+FROM python:3.11.1-slim-buster
 
-WORKDIR /app
-COPY --from=git /project /app/
-
-# Set environment variables
-ENV DEBIAN_FRONTEND="noninteractive"
+# Set environment variables to non-interactive mode and for Python output
+ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONIOENCODING=UTF-8
 ENV POSTGRES_USER=root
 ENV POSTGRES_PASSWORD=root
 ENV POSTGRES_DB=test_db
 
-# Install PostgreSQL
+# Set working directory inside the container
+WORKDIR /app
+
+# Copy all application files into the container
+COPY . .
+
+# Install PostgreSQL and other necessary utilities
 RUN apt-get update && \
     apt-get install -y postgresql postgresql-contrib && \
     rm -rf /var/lib/apt/lists/*
 
-# Log the contents of /usr/local/bin to ensure the entrypoint script is there
-RUN ls -la /usr/local/bin/
-
-# Log the contents of the root directory
-RUN ls -la /
-
-# Set the entrypoint script as the entrypoint
-COPY --from=git /project/entrypoint.sh /
-RUN chmod +x /entrypoint.sh
-CMD ["/entrypoint.sh"]
+# Initialize the database and adjust PostgreSQL configuration
+# Note: These commands assume PostgreSQL setup commands and may need to be adjusted for actual use.
+RUN service postgresql start && \
+    su - postgres -c "psql -c \"CREATE USER $POSTGRES_USER WITH SUPERUSER PASSWORD '$POSTGRES_PASSWORD';\"" && \
+    su - postgres -c "psql -c \"CREATE DATABASE $POSTGRES_DB OWNER $POSTGRES_USER;\"" && \
+    echo "host all all 0.0.0.0/0 md5" >> /etc/postgresql/12/main/pg_hba.conf && \
+    echo "listen_addresses='*'" >> /etc/postgresql/12/main/postgresql.conf
 
 # Expose the default PostgreSQL port
 EXPOSE 5432
+
+# Start PostgreSQL server when the container launches
+CMD ["su", "-", "postgres", "-c", "/usr/lib/postgresql/12/bin/postgres -D /var/lib/postgresql/12/main -c config_file=/etc/postgresql/12/main/postgresql.conf"]
