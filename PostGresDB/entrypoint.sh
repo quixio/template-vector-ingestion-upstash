@@ -1,29 +1,27 @@
 #!/bin/bash
 set -e
 
-# Initialize the database if it does not exist
+# Automatically initialize and configure the database if not already set up
 if [ ! -s "/var/lib/postgresql/data/PG_VERSION" ]; then
-    echo "Database not found, initializing..."
-    pg_ctl init -D /var/lib/postgresql/data
+    echo "Initializing database..."
+    pg_ctl initdb -D /var/lib/postgresql/data
+
+    # Modify the configuration to listen on all interfaces
+    echo "listen_addresses='*'" >> /var/lib/postgresql/data/postgresql.conf
+    echo "host all all 0.0.0.0/0 md5" >> /var/lib/postgresql/data/pg_hba.conf
+
+    # Start the PostgreSQL service
+    pg_ctl start -D /var/lib/postgresql/data -l logfile
+
+    # Create a new user and database
+    while ! pg_isready -d postgres; do
+        echo "Waiting for PostgreSQL to start..."
+        sleep 1
+    done
+
+    createdb -O $POSTGRES_USER $POSTGRES_DB
+    psql -c "CREATE USER $POSTGRES_USER WITH SUPERUSER PASSWORD '$POSTGRES_PASSWORD';"
 fi
 
-# Modify PostgreSQL configurations to allow local connections
-echo "host all all 0.0.0.0/0 md5" >> /var/lib/postgresql/data/pg_hba.conf
-
-# Start PostgreSQL server
-postgres -D /var/lib/postgresql/data &
-
-# Create the user and database based on environment variables
-while ! pg_isready -q -d postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost/$POSTGRES_DB; do
-    echo "Waiting for PostgreSQL to start..."
-    sleep 1
-done
-
-if [ -z "$(psql -Atqc "\\list $POSTGRES_DB")" ]; then
-    echo "Database $POSTGRES_DB does not exist. Creating..."
-    psql -c "CREATE DATABASE $POSTGRES_DB"
-    psql -c "CREATE USER $POSTGRES_USER WITH SUPERUSER PASSWORD '$POSTGRES_PASSWORD'"
-fi
-
-# Keep the process running
-wait
+# Run PostgreSQL in the foreground
+exec postgres -D /var/lib/postgresql/data
