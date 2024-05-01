@@ -23,6 +23,9 @@ RUN apt-get update && \
     apt-get install -y postgresql postgresql-contrib && \
     rm -rf /var/lib/apt/lists/*
 
+# List everything in the current directory (build context)
+RUN ls -la
+
 # Copy the entrypoint script into the container
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
