@@ -15,7 +15,7 @@ RETURNING id;
 '''
 
 # Sample data to insert
-sample_data = ('Sample Product', 19.99)
+sample_data = ('Merlin Product', 19.50)
 
 try:
     # Connect to your postgres DB
