@@ -127,6 +127,11 @@ deployments:
       urlPrefix: pgadmin-4fb8433
     desiredStatus: Running
     variables: []
+    network:
+      serviceName: postgresdb
+      ports:
+        - port: 80
+          targetPort: 5050
 
 # This section describes the Topics of the data pipeline
 topics:
