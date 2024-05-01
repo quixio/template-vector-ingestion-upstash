@@ -13,6 +13,7 @@ ENV POSTGRES_DB=test_db
 WORKDIR /app
 COPY --from=git /project .
 RUN chmod +x ./entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Install Python dependencies from requirements.txt if present
 RUN find | grep requirements.txt | xargs -I '{}' python3 -m pip install -r '{}' --extra-index-url https://pkgs.dev.azure.com/quix-analytics/53f7fe95-59fe-4307-b479-2473b96de6d1/_packaging/public/pypi/simple/
@@ -23,7 +24,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Set the entrypoint script as the entrypoint
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 # Expose the default PostgreSQL port
 EXPOSE 5432
