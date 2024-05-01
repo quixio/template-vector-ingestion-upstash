@@ -6,10 +6,10 @@ def connect_to_db():
     try:
         # Connection parameters - adjust as needed
         conn = psycopg2.connect(
-            host="postgres_service_name",  # Docker service name or IP address
-            database="postgres",          # Default database
-            user="postgres",              # Default user
-            password="your_password"      # Password for the PostgreSQL user
+            host="postgresdb",  # Docker service name or IP address
+            database="test_db",          # Default database
+            user="root",              # Default user
+            password="root"      # Password for the PostgreSQL user
         )
 
         # Create a cursor object
