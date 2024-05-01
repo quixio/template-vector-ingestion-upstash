@@ -125,6 +125,16 @@ deployments:
       urlPrefix: phppgadmin-44a2b29
     desiredStatus: Stopped
     variables: []
+  - name: PostGresDB Test
+    application: PostGresDB Test
+    deploymentType: Service
+    version: latest
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    desiredStatus: Running
+    variables: []
 
 # This section describes the Topics of the data pipeline
 topics:
