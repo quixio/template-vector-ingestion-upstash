@@ -3,11 +3,11 @@ FROM dockage/phppgadmin:latest
 # Copy the entrypoint script
 COPY modify-config.sh /usr/local/bin/modify-config.sh
 
-# Ensure the script uses Unix line endings and is executable
-RUN apt-get update && apt-get install -y dos2unix \
+# Install dos2unix if needed and ensure the script uses Unix line endings and is executable
+RUN apk --no-cache add dos2unix \
     && dos2unix /usr/local/bin/modify-config.sh \
     && chmod +x /usr/local/bin/modify-config.sh \
-    && apt-get --purge remove -y dos2unix && apt-get clean && rm -rf /var/lib/apt/lists/*
+    && apk del dos2unix
 
 # Use the new entrypoint script
 ENTRYPOINT ["/usr/local/bin/modify-config.sh"]
