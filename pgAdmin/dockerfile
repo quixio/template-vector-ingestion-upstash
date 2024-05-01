@@ -4,6 +4,3 @@ FROM dpage/pgadmin4
 # Environment variables
 ENV PGADMIN_DEFAULT_EMAIL=admin@admin.com
 ENV PGADMIN_DEFAULT_PASSWORD=root
-
-# Expose port 80
-EXPOSE 80
