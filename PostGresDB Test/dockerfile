@@ -1,6 +1,12 @@
 # Use the official Python image as the base image
 FROM python:3.11.1-slim-buster
 
+# Install necessary system packages
+RUN apt-get update && apt-get -y install gnupg lsb-release wget
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+RUN apt-get update && apt-get install -y postgresql-13 postgresql-contrib-13
+
 # Set environment variables to non-interactive mode and for Python output
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
@@ -9,27 +15,25 @@ ENV POSTGRES_USER=root
 ENV POSTGRES_PASSWORD=root
 ENV POSTGRES_DB=test_db
 
-# Set working directory inside the container
+# Setup PostgreSQL - Initialize and configure
+USER postgres
+RUN mkdir -p /var/lib/postgresql/13/data && \
+    /usr/lib/postgresql/13/bin/pg_ctl -D /var/lib/postgresql/13/data initdb && \
+    echo "host all all 0.0.0.0/0 md5" >> /var/lib/postgresql/13/data/pg_hba.conf && \
+    echo "listen_addresses='*'" >> /var/lib/postgresql/13/data/postgresql.conf && \
+    /usr/lib/postgresql/13/bin/pg_ctl -D /var/lib/postgresql/13/data -l logfile start && \
+    psql --command "CREATE USER $POSTGRES_USER WITH SUPERUSER PASSWORD '$POSTGRES_PASSWORD';" && \
+    createdb -O "$POSTGRES_USER" "$POSTGRES_DB"
+
+# Change user back to root to perform further operations
+USER root
+
+# Copy application files
+COPY . /app
 WORKDIR /app
-
-# Copy all application files into the container
-COPY . .
-
-# Install PostgreSQL and other necessary utilities
-RUN apt-get update && \
-    apt-get install -y postgresql postgresql-contrib && \
-    rm -rf /var/lib/apt/lists/*
-
-# Initialize the database and adjust PostgreSQL configuration
-# Note: These commands assume PostgreSQL setup commands and may need to be adjusted for actual use.
-RUN service postgresql start && \
-    su - postgres -c "psql -c \"CREATE USER $POSTGRES_USER WITH SUPERUSER PASSWORD '$POSTGRES_PASSWORD';\"" && \
-    su - postgres -c "psql -c \"CREATE DATABASE $POSTGRES_DB OWNER $POSTGRES_USER;\"" && \
-    echo "host all all 0.0.0.0/0 md5" >> /etc/postgresql/12/main/pg_hba.conf && \
-    echo "listen_addresses='*'" >> /etc/postgresql/12/main/postgresql.conf
 
 # Expose the default PostgreSQL port
 EXPOSE 5432
 
-# Start PostgreSQL server when the container launches
-CMD ["su", "-", "postgres", "-c", "/usr/lib/postgresql/12/bin/postgres -D /var/lib/postgresql/12/main -c config_file=/etc/postgresql/12/main/postgresql.conf"]
+# Start PostgreSQL when the container launches
+CMD ["/usr/lib/postgresql/13/bin/postgres", "-D", "/var/lib/postgresql/13/data", "-c", "config_file=/var/lib/postgresql/13/data/postgresql.conf"]
