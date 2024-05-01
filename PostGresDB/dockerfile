@@ -11,6 +11,8 @@ ENV POSTGRES_DB=test_db
 
 # Set working directory inside the container
 WORKDIR /app
+COPY --from=git /app/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Copy local files to the container
 COPY . .
@@ -22,13 +24,6 @@ RUN find | grep requirements.txt | xargs -I '{}' python3 -m pip install -r '{}' 
 RUN apt-get update && \
     apt-get install -y postgresql postgresql-contrib && \
     rm -rf /var/lib/apt/lists/*
-
-# List everything in the current directory (build context)
-RUN ls -la
-
-# Copy the entrypoint script into the container
-COPY entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Set the entrypoint script as the entrypoint
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
