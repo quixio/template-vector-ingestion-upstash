@@ -54,12 +54,9 @@ def create_publication_on_table(publication_name: str, table_name: str):
         
     except psycopg2.errors.UndefinedTable:
         print(f"{table_name} not found.")
-        conn.close()
-        raise
-
-    else:
-        conn.close()
-        raise
+        raise  # Appropriate use of raise to propagate the exception
+    finally:
+        conn.close()  # Ensure connection is closed in finally block
 
 def get_changes(conn, slot_name: str):
     query = f'''
