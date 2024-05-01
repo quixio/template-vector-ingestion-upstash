@@ -11,11 +11,7 @@ ENV POSTGRES_DB=test_db
 
 # Set working directory inside the container
 WORKDIR /app
-COPY --from=git /app/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
-
-# Copy local files to the container
-COPY . .
+COPY --from=git /project .
 
 # Install Python dependencies from requirements.txt if present
 RUN find | grep requirements.txt | xargs -I '{}' python3 -m pip install -r '{}' --extra-index-url https://pkgs.dev.azure.com/quix-analytics/53f7fe95-59fe-4307-b479-2473b96de6d1/_packaging/public/pypi/simple/
