@@ -1,10 +1,36 @@
+# Use the official Python image as the base image
 FROM python:3.11.1-slim-buster
 
+# Set environment variables to non-interactive mode and for Python output
 ENV DEBIAN_FRONTEND="noninteractive"
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONIOENCODING=UTF-8
+ENV POSTGRES_USER=root
+ENV POSTGRES_PASSWORD=root
+ENV POSTGRES_DB=test_db
 
+# Set working directory inside the container
 WORKDIR /app
+
+# Copy local files to the container
 COPY . .
+
+# Install Python dependencies from requirements.txt if present
 RUN find | grep requirements.txt | xargs -I '{}' python3 -m pip install -r '{}' --extra-index-url https://pkgs.dev.azure.com/quix-analytics/53f7fe95-59fe-4307-b479-2473b96de6d1/_packaging/public/pypi/simple/
-ENTRYPOINT ["python3", "main.py"]
+
+# Install PostgreSQL and other necessary utilities
+RUN apt-get update && \
+    apt-get install -y postgresql postgresql-contrib && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy the entrypoint script into the container
+COPY entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Set the entrypoint script as the entrypoint
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+# Expose the default PostgreSQL port
+EXPOSE 5432
+
+# No CMD is needed as the entrypoint script handles all processes
