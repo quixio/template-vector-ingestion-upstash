@@ -94,6 +94,16 @@ deployments:
         description: Name of the output topic to write to.
         required: false
         value: embeddings-sbert-v1
+  - name: PostGresDB
+    application: PostGresDB
+    deploymentType: Service
+    version: latest
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    desiredStatus: Running
+    variables: []
 
 # This section describes the Topics of the data pipeline
 topics:
