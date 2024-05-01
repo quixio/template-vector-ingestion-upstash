@@ -1,11 +1,25 @@
 import psycopg2
 
-def connect_to_db():
-    """ Connects to the PostgreSQL database server """
-    conn = None
-    try:
-        # Connection parameters - adjust as needed
-        conn = psycopg2.connect(
+# SQL commands to create table and insert initial data
+create_table_query = '''
+CREATE TABLE IF NOT EXISTS products (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    price DECIMAL NOT NULL
+);
+'''
+
+insert_data_query = '''
+INSERT INTO products (name, price) VALUES (%s, %s)
+RETURNING id;
+'''
+
+# Sample data to insert
+sample_data = ('Sample Product', 19.99)
+
+try:
+    # Connect to your postgres DB
+    conn = psycopg2.connect(
             host="postgresdb",  # Docker service name or IP address
             database="test_db",          # Default database
             user="root",              # Default user
@@ -13,41 +27,24 @@ def connect_to_db():
             port=80,
             connect_timeout=10       
         )
+    # Open a cursor to perform database operations
+    cur = conn.cursor()
+    
+    # Create table if not exists
+    cur.execute(create_table_query)
+    
+    # Insert data into table
+    cur.execute(insert_data_query, sample_data)
+    product_id = cur.fetchone()[0]
+    print(f"Inserted product with ID: {product_id}")
 
-        # Create a cursor object
-        cur = conn.cursor()
-        
-        # SQL for creating a table
-        create_table_query = '''
-        CREATE TABLE IF NOT EXISTS users (
-            id SERIAL PRIMARY KEY,
-            name VARCHAR(100),
-            age INT
-        );
-        '''
+    # Commit the changes to the database
+    conn.commit()
 
-        # SQL command to check wal_level
-        query = 'SHOW wal_level;'
-
-        #cur.execute(create_table_query)
-        #conn.commit()  # Commit the changes
-        #print("Table created successfully.")
-
-        # Execute a query
-        cur.execute(query)
-        
-        # Retrieve query result
-        wal_level = cur.fetchone()
-        print(f"Current wal_level: {wal_level[0]}")
-
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-    finally:
-        if conn is not None:
-            cur.close()
-            conn.close()
-            print("Database connection closed.")
-
-# Main execution
-if __name__ == '__main__':
-    connect_to_db()
+except Exception as e:
+    print(f"An error occurred: {e}")
+finally:
+    # Clean up connection
+    if conn:
+        cur.close()
+        conn.close()
