@@ -9,7 +9,7 @@ variables:
   - name: PG_HOST
     inputType: FreeText
     description: Host name of Postgres
-    defaultValue: ''
+    defaultValue: roundhouse.proxy.rlwy.net:33253
     required: true
   - name: PG_PORT
     inputType: FreeText
