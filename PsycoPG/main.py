@@ -9,7 +9,8 @@ def connect_to_db():
             host="postgresdb",  # Docker service name or IP address
             database="test_db",          # Default database
             user="root",              # Default user
-            password="root"      # Password for the PostgreSQL user
+            password="root",     # Password for the PostgreSQL user
+            connect_timeout=10       
         )
 
         # Create a cursor object
