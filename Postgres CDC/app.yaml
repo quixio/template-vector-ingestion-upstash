@@ -24,7 +24,7 @@ variables:
   - name: PG_DATABASE
     inputType: FreeText
     description: Database name of Postgres
-    defaultValue: ''
+    defaultValue: test_db
     required: true
   - name: PG_SCHEMA
     inputType: FreeText
