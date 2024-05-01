@@ -5,7 +5,7 @@ FROM postgres
 ENV POSTGRES_USER=root
 ENV POSTGRES_PASSWORD=root
 ENV POSTGRES_DB=test_db
-ENV POSTGRES_INITDB_ARGS="--wal-level=logical"
+# ENV POSTGRES_INITDB_ARGS="--wal-level=logical"
 
 # Expose port 5432 to connect to the database
 EXPOSE 5432
