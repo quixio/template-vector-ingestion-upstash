@@ -109,6 +109,10 @@ deployments:
         description: Name of the output topic to write into
         required: true
         value: csv-data
+    network:
+      serviceName: postgresdb
+      port: 8000
+      targetPort: 5432
 
 # This section describes the Topics of the data pipeline
 topics:
