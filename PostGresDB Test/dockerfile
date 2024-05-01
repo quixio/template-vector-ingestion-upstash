@@ -9,3 +9,6 @@ ENV POSTGRES_INITDB_ARGS="--wal-level=logical"
 
 # Expose port 5432 to connect to the database
 EXPOSE 5432
+
+# Override the default command to include wal_level setting
+CMD ["postgres", "-c", "wal_level=logical"]
