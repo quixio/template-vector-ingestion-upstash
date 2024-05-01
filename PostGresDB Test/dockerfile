@@ -1,39 +1,10 @@
-# Use the official Python image as the base image
-FROM python:3.11.1-slim-buster
+# Use the official PostgreSQL image from Docker Hub
+FROM postgres
 
-# Install necessary system packages
-RUN apt-get update && apt-get -y install gnupg lsb-release wget
-RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-RUN apt-get update && apt-get install -y postgresql-13 postgresql-contrib-13
-
-# Set environment variables to non-interactive mode and for Python output
-ENV DEBIAN_FRONTEND=noninteractive
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONIOENCODING=UTF-8
+# Environment variables
 ENV POSTGRES_USER=root
 ENV POSTGRES_PASSWORD=root
 ENV POSTGRES_DB=test_db
 
-# Setup PostgreSQL - Initialize and configure
-USER postgres
-RUN mkdir -p /var/lib/postgresql/13/data && \
-    /usr/lib/postgresql/13/bin/pg_ctl -D /var/lib/postgresql/13/data initdb && \
-    echo "host all all 0.0.0.0/0 md5" >> /var/lib/postgresql/13/data/pg_hba.conf && \
-    echo "listen_addresses='*'" >> /var/lib/postgresql/13/data/postgresql.conf && \
-    /usr/lib/postgresql/13/bin/pg_ctl -D /var/lib/postgresql/13/data -l logfile start && \
-    psql --command "CREATE USER $POSTGRES_USER WITH SUPERUSER PASSWORD '$POSTGRES_PASSWORD';" && \
-    createdb -O "$POSTGRES_USER" "$POSTGRES_DB"
-
-# Change user back to root to perform further operations
-USER root
-
-# Copy application files
-COPY . /app
-WORKDIR /app
-
-# Expose the default PostgreSQL port
+# Expose port 5432 to connect to the database
 EXPOSE 5432
-
-# Start PostgreSQL when the container launches
-CMD ["/usr/lib/postgresql/13/bin/postgres", "-D", "/var/lib/postgresql/13/data", "-c", "config_file=/var/lib/postgresql/13/data/postgresql.conf"]
