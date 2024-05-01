@@ -25,7 +25,7 @@ RUN ls -la /usr/local/bin/
 RUN ls -la /
 
 # Set the entrypoint script as the entrypoint
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["/bin/sh", "/usr/local/bin/entrypoint.sh"]
 
 # Expose the default PostgreSQL port
 EXPOSE 5432
