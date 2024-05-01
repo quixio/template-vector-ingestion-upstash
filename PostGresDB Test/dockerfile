@@ -1,10 +1,25 @@
-FROM python:3.11.1-slim-buster
+# Stage 2: Building your PostgreSQL environment
+FROM python:3.11.1-slim-buster as postgres-env
+WORKDIR /app
+COPY --from=git /project .
+COPY --from=git /project/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
+# Set environment variables
 ENV DEBIAN_FRONTEND="noninteractive"
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONIOENCODING=UTF-8
+ENV POSTGRES_USER=root
+ENV POSTGRES_PASSWORD=root
+ENV POSTGRES_DB=test_db
 
-WORKDIR /app
-COPY . .
-RUN find | grep requirements.txt | xargs -I '{}' python3 -m pip install -r '{}' --extra-index-url https://pkgs.dev.azure.com/quix-analytics/53f7fe95-59fe-4307-b479-2473b96de6d1/_packaging/public/pypi/simple/
-ENTRYPOINT ["python3", "main.py"]
+# Install PostgreSQL
+RUN apt-get update && \
+    apt-get install -y postgresql postgresql-contrib && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set the entrypoint script as the entrypoint
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+# Expose the default PostgreSQL port
+EXPOSE 5432
