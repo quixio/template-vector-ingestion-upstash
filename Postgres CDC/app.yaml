@@ -36,6 +36,11 @@ variables:
     description: Name of table for CDC
     defaultValue: ''
     required: true
+  - name: PG_PASSWORD
+    inputType: FreeText
+    description: ''
+    defaultValue: root
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
