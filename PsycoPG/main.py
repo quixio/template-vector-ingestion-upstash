@@ -10,6 +10,7 @@ def connect_to_db():
             database="test_db",          # Default database
             user="root",              # Default user
             password="root",     # Password for the PostgreSQL user
+            port=80,
             connect_timeout=10       
         )
 
