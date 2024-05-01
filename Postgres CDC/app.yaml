@@ -19,7 +19,7 @@ variables:
   - name: PG_USER
     inputType: FreeText
     description: Username of Postgres
-    defaultValue: ''
+    defaultValue: root
     required: true
   - name: PG_PASSWORD
     inputType: HiddenText
