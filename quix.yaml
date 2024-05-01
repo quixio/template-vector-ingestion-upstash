@@ -132,6 +132,16 @@ deployments:
         - port: 80
           targetPort: 5050
     variables: []
+  - name: phppgAdmin
+    application: phppgAdmin
+    deploymentType: Service
+    version: latest
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    desiredStatus: Running
+    variables: []
 
 # This section describes the Topics of the data pipeline
 topics:
