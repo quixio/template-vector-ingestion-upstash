@@ -25,16 +25,26 @@ def connect_to_db():
             age INT
         );
         '''
-        cur.execute(create_table_query)
-        conn.commit()  # Commit the changes
-        print("Table created successfully.")
 
-        # Close the cursor and the connection
-        cur.close()
+        # SQL command to check wal_level
+        query = 'SHOW wal_level;'
+
+        #cur.execute(create_table_query)
+        #conn.commit()  # Commit the changes
+        #print("Table created successfully.")
+
+        # Execute a query
+        cur.execute(query)
+        
+        # Retrieve query result
+        wal_level = cur.fetchone()
+        print(f"Current wal_level: {wal_level[0]}")
+
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
         if conn is not None:
+            cur.close()
             conn.close()
             print("Database connection closed.")
 
