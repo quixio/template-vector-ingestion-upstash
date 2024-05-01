@@ -1,8 +1,5 @@
 # Use the official phpPgAdmin Docker image
 FROM dockage/phppgadmin:latest
 
-# Run commands to modify the config.inc.php
-RUN sed -i "s/$conf['servers'][0]['host'] = 'localhost';/$conf['servers'][0]['host'] = 'postgresdb';/" /var/www/html/conf/config.inc.php \
-    && sed -i "s/$conf['servers'][0]['port'] = 5432;/$conf['servers'][0]['port'] = 5432;/" /var/www/html/conf/config.inc.php \
-    && sed -i "s/$conf['servers'][0]['sslmode'] = 'allow';/$conf['servers'][0]['sslmode'] = 'allow';/" /var/www/html/conf/config.inc.php \
-    && sed -i "s/$conf['servers'][0]['defaultdb'] = 'template1';/$conf['servers'][0]['defaultdb'] = 'test_db';/" /var/www/html/conf/config.inc.php
+# Copy your custom config.inc.php into the container
+COPY ./custom-config.inc.php /var/www/html/conf/config.inc.php
