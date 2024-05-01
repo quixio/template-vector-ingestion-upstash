@@ -18,6 +18,12 @@ RUN apt-get update && \
     apt-get install -y postgresql postgresql-contrib && \
     rm -rf /var/lib/apt/lists/*
 
+# Log the contents of /usr/local/bin to ensure the entrypoint script is there
+RUN ls -la /usr/local/bin/
+
+# Log the contents of the root directory
+RUN ls -la /
+
 # Set the entrypoint script as the entrypoint
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
