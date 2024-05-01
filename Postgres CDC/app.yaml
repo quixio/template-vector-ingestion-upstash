@@ -34,7 +34,7 @@ variables:
   - name: PG_TABLE
     inputType: FreeText
     description: Name of table for CDC
-    defaultValue: ''
+    defaultValue: products
     required: true
   - name: PG_PASSWORD
     inputType: FreeText
