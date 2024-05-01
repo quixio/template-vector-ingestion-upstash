@@ -1,9 +1,8 @@
 # Stage 2: Building your PostgreSQL environment
 FROM python:3.11.1-slim-buster as postgres-env
+
 WORKDIR /app
-COPY --from=git /project .
-COPY --from=git /project/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+COPY --from=git /project /app/
 
 # Set environment variables
 ENV DEBIAN_FRONTEND="noninteractive"
@@ -25,7 +24,9 @@ RUN ls -la /usr/local/bin/
 RUN ls -la /
 
 # Set the entrypoint script as the entrypoint
-CMD ["/usr/local/bin/entrypoint.sh"]
+COPY --from=git /project/entrypoint.sh /
+RUN chmod +x /entrypoint.sh
+CMD ["/entrypoint.sh"]
 
 # Expose the default PostgreSQL port
 EXPOSE 5432
