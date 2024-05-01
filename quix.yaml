@@ -113,7 +113,7 @@ deployments:
       serviceName: postgresdb
       ports:
         - port: 80
-          targetPort: 8080
+          targetPort: 5432
 
 # This section describes the Topics of the data pipeline
 topics:
