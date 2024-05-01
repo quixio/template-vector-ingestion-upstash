@@ -128,7 +128,7 @@ deployments:
     desiredStatus: Running
     variables: []
     network:
-      serviceName: postgresdb
+      serviceName: pgadmin
       ports:
         - port: 80
           targetPort: 5050
