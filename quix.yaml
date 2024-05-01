@@ -134,6 +134,11 @@ deployments:
       memory: 500
       replicas: 1
     desiredStatus: Running
+    network:
+      serviceName: postgresdb
+      ports:
+        - port: 80
+          targetPort: 5432
     variables: []
 
 # This section describes the Topics of the data pipeline
