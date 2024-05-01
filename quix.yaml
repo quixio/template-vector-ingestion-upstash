@@ -126,11 +126,11 @@ deployments:
       enabled: true
       urlPrefix: pgadmin-c8d1946
     desiredStatus: Running
-    network:
-      serviceName: pgadmin
-      ports:
-        - port: 80
-          targetPort: 5050
+#    network:
+#      serviceName: pgadmin
+#      ports:
+#        - port: 80
+#          targetPort: 5050
     variables: []
 
 # This section describes the Topics of the data pipeline
