@@ -1,4 +1,4 @@
-name: PsycoPG
+name: Write Data to PostGres
 language: python
 variables: []
 dockerfile: dockerfile
