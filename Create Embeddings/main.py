@@ -38,7 +38,7 @@ output_topic = app.topic(os.environ['output'], value_serializer="json")
 
 # Initialize a streaming dataframe based on the stream of messages from the input topic:
 sdf = app.dataframe(topic=input_topic)
-
+sdf = sdf.update(lambda val: print(f"Original data: {val}"))
 sdf = sdf.apply(simplify_data)
 sdf = sdf.update(lambda val: print(f"Received update: {val}"))
 
