@@ -1,4 +1,4 @@
-name: PostGres-Dashboard-phppgAdmin
+name: PostGresDashboard - phppgAdmin
 language: python
 variables: []
 dockerfile: dockerfile
