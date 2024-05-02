@@ -8,7 +8,7 @@ encoder = SentenceTransformer('all-MiniLM-L6-v2') # Model to create embeddings
 def simplify_data(row):
 
     # Creating a new dictionary that includes 'kind' and zips column names with values
-    new_structure = {"kind": row["kind"]}
+    new_structure = {"kind": row["kind"],"table": row["table"]}
     new_structure.update({key: value for key, value in zip(row["columnnames"], row["columnvalues"])})
 
     # Optionally converting integers to strings
