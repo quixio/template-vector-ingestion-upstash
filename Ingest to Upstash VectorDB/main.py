@@ -3,33 +3,27 @@ from sentence_transformers import SentenceTransformer
 from upstash_vector import Index
 import os
 
-qdrant = QdrantClient(
-    url="https://620342be-1e5e-401c-98da-42bcaddaed57.us-east4-0.gcp.cloud.qdrant.io:6333", 
-    api_key=os.environ['upstash_apikey'],
-)
-
 encoder = SentenceTransformer('all-MiniLM-L6-v2') # Model to create embeddings
 collection = os.environ['collectionname']
 
 # Create collection to store items
-qdrant.recreate_collection(
-    collection_name=collection,
-    vectors_config=models.VectorParams(
-        size=encoder.get_sentence_embedding_dimension(), # Vector size is defined by used model
-        distance=models.Distance.COSINE
-    )
-)
+index = Index(url="https://active-arachnid-42631-eu1-vector.upstash.io", token="********")
 
 # Define the ingestion function
 def ingest_vectors(row):
 
-  index = Index(url="https://active-arachnid-42631-eu1-vector.upstash.io", token="********")
+    # Creating a new dictionary that includes 'kind' and zips column names with values
+    new_structure = {"kind": data["kind"]}
+    new_structure.update({key: value for key, value in zip(data["columnnames"], data["columnvalues"])})
 
-  index.upsert(
-    vectors=[
-        ("id1", "Enter data as string", {"metadata_field": "metadata_value"}),
-    ]
-  )
+    # Optionally converting integers to strings
+    new_structure["year"] = str(new_structure["year"])
+
+    index.upsert(
+        vectors=[
+            ("id1", "Enter data as string", {"metadata_field": "metadata_value"}),
+        ]
+    )
 
   print(f'Ingested vector entry id: "{row["doc_uuid"]}"...')
 
