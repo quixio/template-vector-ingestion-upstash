@@ -12,13 +12,6 @@ index = Index(url="https://active-arachnid-42631-eu1-vector.upstash.io", token="
 # Define the ingestion function
 def ingest_vectors(row):
 
-    # Creating a new dictionary that includes 'kind' and zips column names with values
-    new_structure = {"kind": data["kind"]}
-    new_structure.update({key: value for key, value in zip(data["columnnames"], data["columnvalues"])})
-
-    # Optionally converting integers to strings
-    new_structure["year"] = str(new_structure["year"])
-
     index.upsert(
         vectors=[
             ("id1", "Enter data as string", {"metadata_field": "metadata_value"}),
