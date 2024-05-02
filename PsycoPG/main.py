@@ -7,8 +7,8 @@ connection_params = {
     "user": "root",
     "password": "root",
     "host": "postgresdb",
-    "port"="80",
-    "connect_timeout"="10" 
+    "port": "80",
+    "connect_timeout": "10" 
 }
 
 # Sample documents data
