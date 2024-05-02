@@ -5,7 +5,7 @@ import time
 
 encoder = SentenceTransformer('all-MiniLM-L6-v2') # Model to create embeddings
 
-def simplify_data(row)
+def simplify_data(row):
 
     # Creating a new dictionary that includes 'kind' and zips column names with values
     new_structure = {"kind": row["kind"]}
