@@ -6,7 +6,9 @@ connection_params = {
     "dbname": "test_db",
     "user": "root",
     "password": "root",
-    "host": "postgresdb"
+    "host": "postgresdb",
+    "port"="80",
+    "connect_timeout"="10" 
 }
 
 # Sample documents data
@@ -48,11 +50,13 @@ def main():
     # Insert data using execute_batch for efficient bulk inserts
     query = "INSERT INTO books (name, description, author, year) VALUES (%s, %s, %s, %s)"
     execute_batch(cursor, query, data)
+    print("Inserted records.")
     conn.commit()
 
     # Close the connection
     cursor.close()
     conn.close()
+    print("Connection closed.")
 
 if __name__ == "__main__":
     main()
