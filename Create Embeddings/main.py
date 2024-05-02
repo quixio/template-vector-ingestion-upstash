@@ -40,8 +40,8 @@ output_topic = app.topic(os.environ['output'], value_serializer="json")
 sdf = app.dataframe(topic=input_topic)
 
 sdf = sdf.filter(lambda data: data["table"] == "books")
-
 sdf = sdf.update(lambda val: print(f"Original data: {val}"))
+
 sdf = sdf.apply(simplify_data)
 sdf = sdf.update(lambda val: print(f"Received update: {val}"))
 
