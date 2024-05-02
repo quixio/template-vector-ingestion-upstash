@@ -3,12 +3,6 @@ FROM dockage/phppgadmin:latest
 # Copy the entrypoint script
 COPY modify-config.sh /usr/local/bin/modify-config.sh
 
-# Install dos2unix if needed and ensure the script uses Unix line endings and is executable
-RUN apk --no-cache add dos2unix \
-    && dos2unix /usr/local/bin/modify-config.sh \
-    && chmod +x /usr/local/bin/modify-config.sh \
-    && apk del dos2unix
-
 # Use the new entrypoint script
 ENTRYPOINT ["/usr/local/bin/modify-config.sh"]
 CMD ["apache2-foreground"]
