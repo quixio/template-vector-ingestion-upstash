@@ -12,7 +12,7 @@ def simplify_data(row):
     new_structure.update({key: value for key, value in zip(row["columnnames"], row["columnvalues"])})
 
     # Optionally converting integers to strings
-    # new_structure["year"] = str(new_structure["year"])
+    new_structure["year"] = str(new_structure["year"])
 
     return new_structure
 
