@@ -1,5 +1,14 @@
 # Sample template
 
+Original Dockerfile
+---
+FROM node:21-bookworm-slim
+COPY . /app
+WORKDIR /app
+RUN npm install
+ENTRYPOINT node main.js
+---
+
 [This project](https://github.com/quixio/quix-samples/tree/main/nodejs/empty) is a template for an [express](https://expressjs.com/) web application that can be hosted on the Quix platform.
 
 ## How to run
