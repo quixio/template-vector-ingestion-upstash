@@ -5,9 +5,20 @@ import time
 
 encoder = SentenceTransformer('all-MiniLM-L6-v2') # Model to create embeddings
 
+def simplify_data(row)
+
+    # Creating a new dictionary that includes 'kind' and zips column names with values
+    new_structure = {"kind": row["kind"]}
+    new_structure.update({key: value for key, value in zip(row["columnnames"], row["columnvalues"])})
+
+    # Optionally converting integers to strings
+    new_structure["year"] = str(new_structure["year"])
+
+    return new_structure
+
 # Define the embedding function
 def create_embeddings(row):
-    text = row['description'] #  Merlin.. i changed this to match the incoming data
+    text = row['description']
     embeddings = encoder.encode(text)
     embedding_list = embeddings.tolist() # Conversion step because SentenceTransformer outputs a numpy Array but Qdrant expects a plain list
     print(f'Created vector: "{embedding_list}"')
@@ -20,13 +31,15 @@ app = Application(
 )
 
 # Define an input topic with JSON deserializer
-input_topic = app.topic(os.environ['input'], value_deserializer="json") #  Merlin! I changed these from "quix" to "json"
+input_topic = app.topic(os.environ['input'], value_deserializer="json")
 
 # Define an output topic with JSON serializer
 output_topic = app.topic(os.environ['output'], value_serializer="json")
 
 # Initialize a streaming dataframe based on the stream of messages from the input topic:
 sdf = app.dataframe(topic=input_topic)
+
+sdf = sdf.apply(simplify_data)
 sdf = sdf.update(lambda val: print(f"Received update: {val}"))
 
 # Trigger the embedding function for any new messages(rows) detected in the filtered SDF
