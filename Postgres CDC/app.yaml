@@ -1,4 +1,4 @@
-name: Postgres CDC
+name: PostgresCDC
 language: python
 variables:
   - name: output
