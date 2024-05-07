@@ -6,7 +6,7 @@ encoder = SentenceTransformer('all-MiniLM-L6-v2') # Model to create embeddings
 collection = os.environ['collectionname']
 
 # Create collection to store items
-index = Index(url=os.environ['upstash_url'], token=os.environ['upstash_vectordb_token'])
+index = Index(url=os.environ['upstash_vectordb_endpoint'], token=os.environ['upstash_vectordb_token'])
 
 # Define the ingestion function
 def ingest_vectors(row):
@@ -17,7 +17,7 @@ def ingest_vectors(row):
         ]
     )
 
-  print(f'Ingested vector entry id: "{row["doc_uuid"]}"...')
+  print(f"Ingested vector entry id: '{row['id']}'...")
 
 app = Application.Quix(
     "vectorizer",
