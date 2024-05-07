@@ -31,11 +31,11 @@ deployments:
         description: ''
         required: false
         value: books-catalog
-      - name: upstash_apikey
+      - name: upstash_vectordb_token
         inputType: Secret
         description: ''
         required: true
-        secretKey: upstash_apikey
+        secretKey: upstash_vectordb_token
   - name: Create embeddings
     application: Create Embeddings
     deploymentType: Service
