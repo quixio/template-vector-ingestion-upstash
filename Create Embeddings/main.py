@@ -2,7 +2,10 @@ from quixstreams import Application
 from sentence_transformers import SentenceTransformer
 import os
 import time
-from setup_logger import logger
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = Application(
     consumer_group="vectorsv1",
