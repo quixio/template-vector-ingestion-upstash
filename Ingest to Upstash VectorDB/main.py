@@ -7,6 +7,15 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+app = Application.Quix(
+    "vectorizer",
+    auto_offset_reset="earliest",
+    auto_create_topics=True,  # Quix app has an option to auto create topics
+)
+
+# Define an input topic with JSON deserializer
+input_topic = app.topic(os.environ['input'], value_deserializer="json") # Merlin.. i updated this for you
+
 # Create collection to store items
 index = Index(url=os.environ['upstash_vectordb_endpoint'], token=os.environ['upstash_vectordb_token'])
 
@@ -25,15 +34,6 @@ def ingest_vectors(row):
     )
 
     logger.info(f"Ingested vector entry id: '{row['id']}'...")
-
-app = Application.Quix(
-    "vectorizer",
-    auto_offset_reset="earliest",
-    auto_create_topics=True,  # Quix app has an option to auto create topics
-)
-
-# Define an input topic with JSON deserializer
-input_topic = app.topic(os.environ['input'], value_deserializer="json") # Merlin.. i updated this for you
 
 # Initialize a streaming dataframe based on the stream of messages from the input topic:
 sdf = app.dataframe(topic=input_topic)
