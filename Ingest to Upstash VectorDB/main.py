@@ -1,7 +1,8 @@
 from quixstreams import Application
 from upstash_vector import Index
-import logging
+
 import os
+import logging
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
