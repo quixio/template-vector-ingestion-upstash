@@ -9,6 +9,10 @@ app = Application(
     auto_create_topics=True,  # Quix app has an option to auto create topics
 )
 
+# Define input and ouput topics with JSON deserializer
+input_topic = app.topic(os.environ['input'], value_deserializer="json")
+output_topic = app.topic(os.environ['output'], value_serializer="json")
+
 def simplify_data(row):
 
     # Creating a new dictionary that includes 'kind' and zips column names with values
@@ -30,13 +34,6 @@ def create_embeddings(row):
     print(f'Created vector: "{embedding_list}"')
 
     return embedding_list
-
-
-# Define an input topic with JSON deserializer
-input_topic = app.topic(os.environ['input'], value_deserializer="json")
-
-# Define an output topic with JSON serializer
-output_topic = app.topic(os.environ['output'], value_serializer="json")
 
 # Initialize a streaming dataframe based on the stream of messages from the input topic:
 sdf = app.dataframe(topic=input_topic)
