@@ -1,5 +1,4 @@
 from quixstreams import Application
-from sentence_transformers import SentenceTransformer
 from upstash_vector import Index
 import os
 
@@ -7,14 +6,14 @@ encoder = SentenceTransformer('all-MiniLM-L6-v2') # Model to create embeddings
 collection = os.environ['collectionname']
 
 # Create collection to store items
-index = Index(url="https://active-arachnid-42631-eu1-vector.upstash.io", token="********")
+index = Index(url=os.environ['upstash_url'], token=os.environ['upstash_apikey'])
 
 # Define the ingestion function
 def ingest_vectors(row):
 
     index.upsert(
         vectors=[
-            ("id1", "Enter data as string", {"metadata_field": "metadata_value"}),
+            ("id1", row["embeddings"], {"metadata_field": "metadata_value"}),
         ]
     )
 
