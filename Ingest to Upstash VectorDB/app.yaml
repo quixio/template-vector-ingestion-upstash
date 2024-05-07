@@ -11,11 +11,6 @@ variables:
     description: ''
     defaultValue: quix-demo
     required: true
-  - name: collectionname
-    inputType: FreeText
-    description: ''
-    defaultValue: books-catalog
-    required: false
   - name: upstash_vectordb_token
     inputType: Secret
     description: ''
