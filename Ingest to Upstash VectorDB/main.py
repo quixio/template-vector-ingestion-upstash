@@ -1,7 +1,10 @@
 from quixstreams import Application
 from upstash_vector import Index
+import logging
 import os
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Create collection to store items
 index = Index(url=os.environ['upstash_vectordb_endpoint'], token=os.environ['upstash_vectordb_token'])
@@ -20,7 +23,7 @@ def ingest_vectors(row):
         ]
     )
 
-  print(f"Ingested vector entry id: '{row['id']}'...")
+    logger.info(f"Ingested vector entry id: '{row['id']}'...")
 
 app = Application.Quix(
     "vectorizer",
