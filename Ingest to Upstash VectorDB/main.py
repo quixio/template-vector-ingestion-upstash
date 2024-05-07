@@ -2,8 +2,6 @@ from quixstreams import Application
 from upstash_vector import Index
 import os
 
-encoder = SentenceTransformer('all-MiniLM-L6-v2') # Model to create embeddings
-collection = os.environ['collectionname']
 
 # Create collection to store items
 index = Index(url=os.environ['upstash_vectordb_endpoint'], token=os.environ['upstash_vectordb_token'])
