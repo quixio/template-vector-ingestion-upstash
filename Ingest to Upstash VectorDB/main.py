@@ -6,7 +6,7 @@ encoder = SentenceTransformer('all-MiniLM-L6-v2') # Model to create embeddings
 collection = os.environ['collectionname']
 
 # Create collection to store items
-index = Index(url=os.environ['upstash_url'], token=os.environ['upstash_apikey'])
+index = Index(url=os.environ['upstash_url'], token=os.environ['upstash_vectordb_token'])
 
 # Define the ingestion function
 def ingest_vectors(row):
