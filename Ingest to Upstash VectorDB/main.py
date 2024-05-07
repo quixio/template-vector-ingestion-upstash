@@ -11,7 +11,12 @@ def ingest_vectors(row):
 
     index.upsert(
         vectors=[
-            ("id1", row["embeddings"], {"metadata_field": "metadata_value"}),
+            (row["id"], 
+            row["embeddings"], 
+               {"name": row["name"],
+                "description": row["description"],
+                "author": row["author"],
+                "year": str(row["year"])}),
         ]
     )
 
