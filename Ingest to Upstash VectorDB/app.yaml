@@ -6,11 +6,6 @@ variables:
     description: This is the input topic for demo data
     defaultValue: embeddings-sbert-v1
     required: true
-  - name: vectordbname
-    inputType: FreeText
-    description: ''
-    defaultValue: quix-demo
-    required: true
   - name: upstash_vectordb_token
     inputType: Secret
     description: ''
