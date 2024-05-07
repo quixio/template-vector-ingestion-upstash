@@ -2,6 +2,7 @@ from quixstreams import Application
 from sentence_transformers import SentenceTransformer
 import os
 import time
+from setup_logger import logger
 
 app = Application(
     consumer_group="vectorsv1",
@@ -42,7 +43,7 @@ sdf = sdf.filter(lambda data: data["table"] == "books")
 sdf = sdf.update(lambda val: print(f"Original data: {val}"))
 
 sdf = sdf.apply(simplify_data)
-sdf = sdf.update(lambda val: print(f"Received update: {val}"))
+sdf = sdf.update(lambda val: logger.info(f"Received update: {val}"))
 
 # Trigger the embedding function for any new messages(rows) detected in the filtered SDF
 sdf["embeddings"] = sdf.apply(create_embeddings, stateful=False)
