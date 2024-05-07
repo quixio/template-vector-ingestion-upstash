@@ -16,6 +16,11 @@ variables:
     description: ''
     defaultValue: books-catalog
     required: false
+  - name: upstash_vectordb_token
+    inputType: Secret
+    description: ''
+    defaultValue: upstash_vectordb_token
+    required: true
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
