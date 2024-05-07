@@ -40,7 +40,7 @@ def create_embeddings(row):
 sdf = app.dataframe(topic=input_topic)
 
 sdf = sdf.filter(lambda data: data["table"] == "books")
-sdf = sdf.update(lambda val: print(f"Original data: {val}"))
+sdf = sdf.update(lambda val: logger.info(f"Original data: {val}"))
 
 sdf = sdf.apply(simplify_data)
 sdf = sdf.update(lambda val: logger.info(f"Received update: {val}"))
