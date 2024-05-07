@@ -5,6 +5,12 @@ import time
 
 encoder = SentenceTransformer('all-MiniLM-L6-v2') # Model to create embeddings
 
+app = Application(
+    consumer_group="vectorsv1",
+    auto_offset_reset="earliest",
+    auto_create_topics=True,  # Quix app has an option to auto create topics
+)
+
 def simplify_data(row):
 
     # Creating a new dictionary that includes 'kind' and zips column names with values
@@ -25,11 +31,6 @@ def create_embeddings(row):
 
     return embedding_list
 
-app = Application(
-    consumer_group="vectorsv1",
-    auto_offset_reset="earliest",
-    auto_create_topics=True,  # Quix app has an option to auto create topics
-)
 
 # Define an input topic with JSON deserializer
 input_topic = app.topic(os.environ['input'], value_deserializer="json")
