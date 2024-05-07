@@ -3,8 +3,6 @@ from sentence_transformers import SentenceTransformer
 import os
 import time
 
-encoder = SentenceTransformer('all-MiniLM-L6-v2') # Model to create embeddings
-
 app = Application(
     consumer_group="vectorsv1",
     auto_offset_reset="earliest",
@@ -21,6 +19,8 @@ def simplify_data(row):
     new_structure["year"] = str(new_structure["year"])
 
     return new_structure
+
+encoder = SentenceTransformer('all-MiniLM-L6-v2') # Model to create embeddings
 
 # Define the embedding function
 def create_embeddings(row):
