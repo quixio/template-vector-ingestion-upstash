@@ -78,7 +78,7 @@ deployments:
         inputType: FreeText
         description: Name of table for CDC
         required: true
-        value: products
+        value: books
       - name: PG_PASSWORD
         inputType: FreeText
         description: ''
