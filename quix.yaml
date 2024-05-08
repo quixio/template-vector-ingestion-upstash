@@ -89,8 +89,8 @@ deployments:
     deploymentType: Service
     version: latest
     resources:
-      cpu: 200
-      memory: 500
+      cpu: 500
+      memory: 1000
       replicas: 1
     desiredStatus: Running
     variables:
