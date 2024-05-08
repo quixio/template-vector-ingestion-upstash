@@ -84,6 +84,26 @@ deployments:
         description: ''
         required: false
         value: root
+  - name: Create Embeddings
+    application: Create Embeddings
+    deploymentType: Service
+    version: latest
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    desiredStatus: Running
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: false
+        value: postgres-cdc-source
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write to.
+        required: false
+        value: embeddings-sbert-v1
 
 # This section describes the Topics of the data pipeline
 topics:
