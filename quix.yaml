@@ -36,26 +36,6 @@ deployments:
         description: ''
         required: true
         secretKey: upstash_vectordb_token
-  - name: Create embeddings
-    application: Create Embeddings
-    deploymentType: Service
-    version: latest
-    resources:
-      cpu: 500
-      memory: 1000
-      replicas: 1
-    desiredStatus: Stopped
-    variables:
-      - name: input
-        inputType: InputTopic
-        description: Name of the input topic to listen to.
-        required: false
-        value: postgres-cdc-source
-      - name: output
-        inputType: OutputTopic
-        description: Name of the output topic to write to.
-        required: false
-        value: embeddings-sbert-v1
   - name: phppgAdmin
     application: phppgAdmin
     deploymentType: Service
