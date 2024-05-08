@@ -2,4 +2,4 @@ name: Pgadmin UI
 language: nodejs
 variables: []
 dockerfile: dockerfile
-defaultFile: main.js
+defaultFile: README.md
