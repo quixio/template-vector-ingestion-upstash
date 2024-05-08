@@ -1,30 +1,22 @@
-# Starter transformation
+# Application to Create Embeddings 
 
-[This project](https://github.com/quixio/quix-samples/tree/main/python/transformations/empty-template) is an example of how to transform data on the fly between source and destination.
+## Overview
+This Python application uses Quix Streams to process real-time data and creates embeddings for a text field called "description" using the Sentence Transformer library. It is designed to process a Change Data Capture (CDC) data stream for updates to a book catalog, creating embeddings for the book descriptions, and publishing the results to an output topic.
 
-The default implementation subscribes to data from the source and publishes to the destination as-well-as printing content to console output. 
+## Functionality
+- **Data Input/Output**: Reads data from an input topic and writes to an output topic using environment variables for topic names.
+- **Data Processing**:
+  - Filters rows specific to books.
+  - Simplifies data structure by merging and converting fields.
+  - Generates text embeddings for descriptions using `all-MiniLM-L6-v2` model.
 
-Modify the Python code to transform your data on the fly.
+## Configuration
+Set environment variables for input and output topics before running the script.
 
-## How to run
+## Dependencies
+- quixstreams
+- sentence-transformers
 
-Create a [Quix](https://portal.platform.quix.ai/self-sign-up?xlink=github) account or log-in and visit the Samples to use this project.
+## Usage
+Execute the script in an environment where Quix Streams and the required Python packages are available. The script is configured to auto-create topics and begin processing as soon as it is launched.
 
-Clicking `Edit code` on the Sample, forks the project to your own Git repo so you can customize it before deploying.
-
-## Environment variables
-
-The code sample uses the following environment variables:
-
-- **input**: Name of the input topic to listen to.
-- **output**: Name of the output topic to write to.
-
-## Contribute
-
-Submit forked projects to the Quix [GitHub](https://github.com/quixio/quix-samples) repo. Any new project that we accept will be attributed to you and you'll receive $200 in Quix credit.
-
-## Open source
-
-This project is open source under the Apache 2.0 license and available in our [GitHub](https://github.com/quixio/quix-samples) repo.
-
-Please star us and mention us on social to show your appreciation.

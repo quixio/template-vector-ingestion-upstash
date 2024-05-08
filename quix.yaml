@@ -6,8 +6,8 @@ metadata:
 
 # This section describes the Deployments of the data pipeline
 deployments:
-  - name: Pgadmin UI
-    application: Pgadmin UI
+  - name: pgAdmin Database Admin UI
+    application: pgAdmin Database Admin UI
     deploymentType: Service
     version: latest
     resources:
@@ -20,7 +20,7 @@ deployments:
     desiredStatus: Running
     variables: []
   - name: Test PostgreSQL Database
-    application: PostGresDB Test
+    application: Test PostgreSQL Database
     deploymentType: Service
     version: latest
     resources:
