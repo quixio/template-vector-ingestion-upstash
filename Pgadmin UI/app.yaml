@@ -1,4 +1,4 @@
-name: Pgadmin UI
+name: pgAdmin Database Admin UI
 language: nodejs
 variables: []
 dockerfile: dockerfile
