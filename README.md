@@ -1,43 +1,32 @@
-# Continuous Vector Ingestion using Quix and Upstash
+# Change Data Capture (CDC) Tutorial: PostgreSQL to Upstash Vector via Kafka
 
-This template shows you how to continuously ingest documents into a vector store using Apache Kafka. For simplicity, this use case is illustrated by streaming data from small CSV files that represent updates to a book catalog. The descriptive text from the catalog entries is then embedded and then ingested it into a vector store for semantic search. In a production scenario, you might use Change Data Capture (CDC) to ensure that the vector store is in sync with the book catalog database.
+## Overview
+This repository accompanies the blog article "Change Data Capture (CDC) from PostgreSQL into Upstash Vector using Kafka, Python, and Quix." It demonstrates how to efficiently capture data changes in a PostgreSQL database and stream them into an Upstash Vector database using Kafka, Python, and the Quix platform.
 
-This template uses the following open source libraries:
+## Why Change Data Capture?
+Change Data Capture (CDC) is crucial for applications requiring real-time data accuracy, such as AI-chatbots in e-commerce. By only processing and transmitting changed data, CDC minimizes data latency and reduces resource consumption.
 
-* **[Quix Streams](https://github.com/quixio/quix-streams)** to produce data to, and consume data from, Apache Kafka.
+## Architecture
+![Quix CDC Pipeline Screenshot](quix-cdc-pipeline.png)
+This tutorial leverages:
+- **PostgreSQL**: Source database for capturing changes.
+- **Upstash**: Serverless Kafka for data streaming and Vector database for storing vectorized data.
+- **Quix**: Offers a Python-based framework for stream processing, handling the ingestion and transformation of streaming data.
 
-* **[Upstash Vector Python SDK](https://github.com/upstash/vector-py)** to store the embeddings in the Upstash vector database.
+## Getting Started
+1. **Prerequisites**: Sign up for free accounts at [Upstash](https://upstash.com) and [Quix](https://quix.io).
+2. **Set up**: Follow the [Quix template creation link](https://portal.platform.quix.io/signup?projectName=Continuous%20Vector%20Ingestion%20to%20Upstash&httpsUrl=https://github.com/quixio/template-vector-ingestion-upstash&branchName=tutorial) to deploy the environment using the code from this repository.
+3. **Run**: Start services via the Quix platform and populate your PostgreSQL database to see real-time data ingestion into the Upstash Vector database.
 
-The following screenshot illustrates the architecture of the resulting pipeline in Quix Cloud:
-![Pipeline sscreenshot](https://github.com/quixio/template-vector-ingestion-upstash/assets/116729413/a3ade223-60fb-4352-84fb-775bbfb34d8a)
+## How It Works
+1. **Capture Changes**: Detects and captures data modifications in PostgreSQL.
+2. **Process Data**: Python scripts use the Quix Streams library to transform data into a suitable format for vector databases.
+3. **Upsert Data**: Stream the transformed data into Upstash VectorDB for quick retrieval and querying.
 
-You can also try out a minimal version of this pipeline in a [standalone Jupyter notebook](./continuously_ingest_documents_into_upstash_vector_store_using_quix_and_kafka.ipynb
-). 
-* To run it Google Colab, click [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/quixio/template-vector-ingestion-upstash/blob/develop/continuously_ingest_documents_into_upstash_vector_store_using_quix_and_kafka.ipynb) .
-
-## Trying it out
-To try out the pipeline, first clone the vector ingestion template (for more information on how to clone a project template, see the article ["How to create a project from a template in Quix](https://quix.io/blog/how-to-create-a-project-from-a-template")). 
-
-Before you clone the pipeline, you’ll also need to sign up for a free account with [Upstash](https://upstash.com/) (you can sign up with your GitHub or Google account). When you clone the project template in Quix, you’ll be asked for your Upstash credentials.
-
-When running the project, you'll ingest content in two passes, 
-* In the **first pass**, you'll add some initial entries to a "book-catalog" vector store via Kafka, then search the vector store (we've used the example query "book like star wars") to check that the data was ingested correctly.
-* In the **second round** you'll go through the whole process again (albeit faster) with new data, and see how the matches change for the same search query .
-
-### Run the first ingestion test
-
-1. Press play on the first job (with the name that starts with “PT1…”)—hover your mouse over the “stopped” button to press play.<br><br>
-   _This will ingest the first part of the same “sci-fi books” sample dataset that we used in the notebook._ <br><br>
-2. In the [Upstash vector console](https://console.upstash.com/vector), open the data browser.<br><br>
-3. Search for “book like star wars” — the top result should be “Dune”.<br><br>
-   ![Upstash search1 screenshot](https://github.com/quixio/template-vector-ingestion-upstash/assets/116729413/e7351a9c-ff26-4986-a2c0-67a23f55abed)
-   _We can assume it matched because the words in the description are semantically similar to the query: “planet" is semantically close to "star" and "struggles" is semantically close to "wars"._
+## Resources
+- **Code**: Explore the full source code provided in this repository.
+- **Documentation**: Detailed instructions are available in the accompanying blog article and the READMEs of individual components within this repo.
 
 
-### Run the second ingestion test
-
-1. Press play on the second job (with the name that starts with “PT2…”)<br><br>
-   _This will ingest the second part of the dataset with more relevant matches._ <br><br>
-2. In the Upstash data browser, search for “books like star wars” again—the top result should now be “Old man’s war”, and the second result should be “Dune”.<br><br>
-   ![Upstash search2 screenshot](https://github.com/quixio/template-vector-ingestion-upstash/assets/116729413/1c47d40b-2450-482a-a75e-653aeb4942f4)
-   _We can assume that Dune has been knocked off the top spot because the new addition has a more semantically relevant description: the "term" war is almost a direct hit, and "interstellar" is probably semantically closer to the search term "star" than "planet"._
+## Support
+Join the Quix Community Slack for support and discussions about real-time data processing with Quix and Upstash.
