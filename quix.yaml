@@ -6,36 +6,6 @@ metadata:
 
 # This section describes the Deployments of the data pipeline
 deployments:
-  - name: Ingest to Upstash VectorDB
-    application: Ingest to Upstash VectorDB
-    deploymentType: Service
-    version: latest
-    resources:
-      cpu: 200
-      memory: 500
-      replicas: 1
-    desiredStatus: Stopped
-    variables:
-      - name: input
-        inputType: InputTopic
-        description: This is the input topic for demo data
-        required: true
-        value: embeddings-sbert-v1
-      - name: vectordbname
-        inputType: FreeText
-        description: ''
-        required: true
-        value: quix-demo
-      - name: collectionname
-        inputType: FreeText
-        description: ''
-        required: false
-        value: books-catalog
-      - name: upstash_vectordb_token
-        inputType: Secret
-        description: ''
-        required: true
-        secretKey: upstash_vectordb_token
   - name: phppgAdmin
     application: phppgAdmin
     deploymentType: Service
