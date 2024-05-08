@@ -1,3 +1,0 @@
-streamlit
-qdrant-client
-sentence_transformers
