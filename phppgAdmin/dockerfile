@@ -1,8 +1,0 @@
-FROM dockage/phppgadmin:latest
-
-# Copy the entrypoint script
-COPY modify-config.sh /usr/local/bin/modify-config.sh
-
-# Use the new entrypoint script
-ENTRYPOINT ["/usr/local/bin/modify-config.sh"]
-CMD ["apache2-foreground"]
