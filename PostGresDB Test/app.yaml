@@ -1,4 +1,4 @@
-name: Test PostgreSQL database
+name: Test PostgreSQL Database
 language: python
 variables: []
 dockerfile: dockerfile
