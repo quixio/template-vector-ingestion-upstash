@@ -1,3 +1,2 @@
-quixstreams==2.2.0a0
-sentence_transformers
-qdrant-client
+quixstreams==2.4.1
+upstash-vector
