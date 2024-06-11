@@ -87,6 +87,45 @@ deployments:
       memory: 500
       replicas: 1
     variables: []
+  - name: pg_writer
+    application: pg_writer
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: false
+        value: transform
+      - name: pg_user
+        inputType: FreeText
+        description: The db username
+        required: true
+        value: root
+      - name: pg_pwd
+        inputType: FreeText
+        description: The db password
+        required: true
+        value: root
+      - name: pg_host
+        inputType: FreeText
+        description: The db host
+        required: true
+        value: postgres
+      - name: pg_port
+        inputType: FreeText
+        description: The db port
+        required: true
+        value: 5432
+      - name: pg_database
+        inputType: FreeText
+        description: The db name
+        required: true
+        value: test_db
   - name: PostgreSQL CDC
     application: Postgres CDC
     version: latest
@@ -136,8 +175,8 @@ deployments:
         description: ''
         required: false
         value: root
-  - name: Streamlit dashboard
-    application: Streamlit dashboard
+  - name: qd_writer
+    application: qd_writer
     version: latest
     deploymentType: Service
     resources:
@@ -145,21 +184,26 @@ deployments:
       memory: 500
       replicas: 1
     variables:
-      - name: collectionname
-        inputType: FreeText
-        description: ''
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
         required: false
-        value: books-catalog
-      - name: qdrant_apikey
+        value: transform
+      - name: qd_host
         inputType: FreeText
-        description: ''
-        required: false
-        value: update me
-      - name: qdrant_url
+        description: The db host
+        required: true
+        value: qdrant
+      - name: qd_port
         inputType: FreeText
-        description: ''
-        required: false
-        value: https://620342be-1e5e-401c-98da-42bcaddaed57.us-east4-0.gcp.cloud.qdrant.io:6333
+        description: The db port
+        required: true
+        value: 6333
+      - name: qd_collection
+        inputType: FreeText
+        description: The db name
+        required: true
+        value: test_db
   - name: Test PostgreSQL Database
     application: Test PostgreSQL Database
     version: latest
@@ -169,6 +213,74 @@ deployments:
       memory: 500
       replicas: 1
     variables: []
+  - name: pg_reader
+    application: pg_reader
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    variables:
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write into
+        required: true
+        value: csv-data
+      - name: pg_user
+        inputType: FreeText
+        description: The db username
+        required: true
+        value: root
+      - name: pg_pwd
+        inputType: FreeText
+        description: The db password
+        required: true
+        value: root
+      - name: pg_host
+        inputType: FreeText
+        description: The db host
+        required: true
+        value: postgres
+      - name: pg_port
+        inputType: FreeText
+        description: The db port
+        required: true
+        value: 5432
+      - name: pg_database
+        inputType: FreeText
+        description: The db name
+        required: true
+        value: test_db
+  - name: qd_reader
+    application: qd_reader
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    variables:
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write into
+        required: true
+        value: csv-data
+      - name: qd_host
+        inputType: FreeText
+        description: The db host
+        required: true
+        value: qdrant
+      - name: qd_port
+        inputType: FreeText
+        description: The db port
+        required: true
+        value: 6333
+      - name: qd_collection
+        inputType: FreeText
+        description: The db name
+        required: true
+        value: test_db
 
 # This section describes the Topics of the data pipeline
 topics: []

@@ -9,7 +9,7 @@ variables:
   - name: PG_HOST
     inputType: FreeText
     description: Host name of Postgres
-    defaultValue: postgresdb
+    defaultValue: postgres
     required: true
   - name: PG_PORT
     inputType: FreeText

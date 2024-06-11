@@ -1,0 +1,172 @@
+services:
+  kafka-broker:
+    image: docker.redpanda.com/redpandadata/redpanda:v24.1.1
+    command: |
+      redpanda start
+      --smp 1
+      --overprovisioned
+      --node-id 0
+      --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:19092
+      --advertise-kafka-addr internal://kafka-broker:9092,external://localhost:19092
+      --pandaproxy-addr internal://0.0.0.0:8082,external://0.0.0.0:18082
+      --advertise-pandaproxy-addr internal://kafka-broker:8082,external://localhost:18082
+      --schema-registry-addr internal://0.0.0.0:8081,external://0.0.0.0:18081
+      --rpc-addr kafka-broker:33145
+      --advertise-rpc-addr kafka-broker:33145
+      --mode dev-container
+      --set auto_create_topics_enabled=true
+    ports:
+      - 18081:18081
+      - 18082:18082
+      - 19092:19092
+      - 19644:9644
+  console:
+    image: docker.redpanda.com/redpandadata/console:v2.5.2
+    entrypoint: /bin/sh
+    command: |-
+      -c 'echo "$$CONSOLE_CONFIG_FILE" > /tmp/config.yml; /app/console'
+    ports:
+      - 8080:8080
+    environment:
+      CONFIG_FILEPATH: /tmp/config.yml
+      CONSOLE_CONFIG_FILE: >
+        kafka:
+          brokers: ["kafka-broker:9092"]
+          schemaRegistry:
+            enabled: true
+            urls: ["http://kafka-broker:8081"]
+        redpanda:
+          adminApi:
+            enabled: true
+            urls: ["http://kafka-broker:9644"]
+        connect:
+          enabled: true
+          clusters:
+            - name: local-connect-cluster
+              url: http://connect:8083
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: test_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    #   - ./custom_postgresql.conf:/etc/postgresql.conf
+    # command:
+    # - "postgres"
+    # - "-c"
+    # - "config_file=/etc/postgresql.conf"
+
+  qdrant:
+    image: qdrant/qdrant
+    container_name: qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_storage:/qdrant/storage.
+
+  qd_writer:
+    volumes:
+      - /dev/null:/app/.env
+    build:
+      context: qd_writer
+      dockerfile: dockerfile
+    environment:
+      input: transform
+      qd_host: qdrant
+      qd_port: 6333
+      qd_collection: test_db
+      Quix__Broker__Address: kafka-broker:9092
+    depends_on:
+      - qdrant
+      - kafka-broker
+
+  qd_reader:
+    volumes:
+      - /dev/null:/app/.env
+    build:
+      context: qd_reader
+      dockerfile: dockerfile
+    environment:
+      output: csv-data
+      qd_host: qdrant
+      qd_port: 6333
+      qd_collection: test_db
+      Quix__Broker__Address: kafka-broker:9092
+    depends_on:
+      - qdrant
+      - kafka-broker
+
+  pg_writer:
+    volumes:
+      - /dev/null:/app/.env
+    build:
+      context: pg_writer
+      dockerfile: dockerfile
+    environment:
+      input: transform
+      pg_user: root
+      pg_pwd: root
+      pg_host: postgres
+      pg_port: 5432
+      pg_database: test_db
+      Quix__Broker__Address: kafka-broker:9092
+    depends_on:
+      - postgres
+      - kafka-broker
+
+  pg_reader:
+    volumes:
+      - /dev/null:/app/.env
+    build:
+      context: pg_reader
+      dockerfile: dockerfile
+    environment:
+      output: csv-data
+      pg_user: root
+      pg_pwd: root
+      pg_host: postgres
+      pg_port: 5432
+      pg_database: test_db
+      Quix__Broker__Address: kafka-broker:9092
+    depends_on:
+      - postgres
+      - kafka-broker
+
+  postgresql_cdc:
+    volumes:
+      - /dev/null:/app/.env
+    build:
+      context: Postgres CDC
+      dockerfile: dockerfile
+    environment:
+      output: postgres-cdc-source
+      PG_HOST: postgres
+      PG_PORT: 5432
+      PG_USER: root
+      PG_DATABASE: test_db
+      PG_SCHEMA: public
+      PG_TABLE: person
+      PG_PASSWORD: root
+      Quix__Broker__Address: kafka-broker:9092
+    depends_on:
+      - postgres
+      - kafka-broker
+
+  pg_admin:
+    build:
+      context: pgAdmin Database Admin UI
+      dockerfile: dockerfile
+    ports:
+      - "8090:80"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
+  qdrant_storage:

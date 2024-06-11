@@ -90,32 +90,6 @@ services:
       dockerfile: dockerfile
     environment:
       Quix__Broker__Address: kafka-broker:9092
-  pg_reader:
-    volumes:
-      - /dev/null:/app/.env
-    build:
-      context: pg_reader
-      dockerfile: dockerfile
-    environment:
-      output: csv-data
-      pg_user: root
-      pg_pwd: root
-      pg_host: postgres
-      pg_port: 5432
-      pg_database: test_db
-      Quix__Broker__Address: kafka-broker:9092
-  qd_reader:
-    volumes:
-      - /dev/null:/app/.env
-    build:
-      context: qd_reader
-      dockerfile: dockerfile
-    environment:
-      output: csv-data
-      qd_host: qdrant
-      qd_port: 6333
-      qd_collection: test_db
-      Quix__Broker__Address: kafka-broker:9092
   kafka-broker:
     image: docker.redpanda.com/redpandadata/redpanda:v24.1.1
     command: |

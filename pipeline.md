@@ -5,7 +5,10 @@ Create_Embeddings[Create Embeddings] -->|embeddings-sbert-v1|Ingest_to_Qdrant_Cl
 Create_Embeddings[Create Embeddings] -->|embeddings-sbert-v1|Ingest_to_Upstash_VectorDB[Ingest to Upstash VectorDB];
 PostgreSQL_CDC[PostgreSQL CDC] -->|postgres-cdc-source|Create_Embeddings[Create Embeddings];
 pgAdmin_Database_Admin_UI[pgAdmin Database Admin UI]
-Streamlit_dashboard[Streamlit dashboard]
+pg_writer[pg_writer]
+qd_writer[qd_writer]
 Test_PostgreSQL_Database[Test PostgreSQL Database]
+pg_reader[pg_reader]
+qd_reader[qd_reader]
 
 ```

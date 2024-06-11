@@ -1,0 +1,26 @@
+name: qd_reader
+language: Python
+variables:
+  - name: output
+    inputType: OutputTopic
+    description: Name of the output topic to write into
+    defaultValue: csv-data
+    required: true
+  - name: qd_host
+    inputType: FreeText
+    description: The db host
+    defaultValue: 'qdrant'
+    required: true
+  - name: qd_port
+    inputType: FreeText
+    description: The db port
+    defaultValue: '6333'
+    required: true
+  - name: qd_collection
+    inputType: FreeText
+    description: The db name
+    defaultValue: 'test_db'
+    required: true
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py
