@@ -1,4 +1,4 @@
-name: Ingest to Upstash VectorDB
+name: Ingest to Qdrant Cloud VectorDB
 language: python
 variables:
   - name: input
@@ -6,16 +6,21 @@ variables:
     description: This is the input topic for demo data
     defaultValue: embeddings-sbert-v1
     required: true
-  - name: upstash_vectordb_token
+  - name: vectordbname
+    inputType: FreeText
+    description: ''
+    defaultValue: quix-demo
+    required: true
+  - name: collectionname
+    inputType: FreeText
+    description: ''
+    defaultValue: books-catalog
+    required: false
+  - name: qdrant_apikey
     inputType: FreeText
     description: ''
     defaultValue: 'update me'
     required: true
-  - name: upstash_vectordb_endpoint
-    inputType: FreeText
-    description: ''
-    defaultValue: https://active-arachnid-42631-eu1-vector.upstash.io
-    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
