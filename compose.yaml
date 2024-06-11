@@ -66,6 +66,35 @@ services:
   #   environment:
   #     Quix__Broker__Address: kafka-broker:9092
 
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: test_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  postgres_db_writer:
+    build:
+      context: ./postgresdb-writer
+      dockerfile: dockerfile
+    depends_on:
+      - postgres
+    entrypoint: ["sh", "-c", "sleep 10 && python init_db.py"]
+
+  postgres_db_reader:
+    build:
+      context: ./postgresdb-reader
+      dockerfile: dockerfile
+    depends_on:
+      - postgres
+    entrypoint: ["sh", "-c", "sleep 10 && python read.py"]
+
+
   qdrant:
     image: qdrant/qdrant
     container_name: qdrant
@@ -74,20 +103,22 @@ services:
     volumes:
       - qdrant_storage:/qdrant/storage.
 
-
-  streamlit_dashboard:
-    volumes:
-      - /dev/null:/app/.env
+  read_qdrant_service:
     build:
-      context: Streamlit dashboard
+      context: ./qdrant-reader
       dockerfile: dockerfile
-    environment:
-      collectionname: books-catalog
-      qdrant_apikey: update me
-      qdrant_url: qdrant:6333
-      Quix__Broker__Address: kafka-broker:9092
-
-
+    depends_on:
+      - qdrant
+    entrypoint: ["sh", "-c", "python read.py"]
+  
+  write_qdrant_service:
+    build:
+      context: ./qdrant-writer
+      dockerfile: dockerfile
+    depends_on:
+      - qdrant
+    entrypoint: ["sh", "-c", "python write.py"]
+    
   kafka-broker:
     image: docker.redpanda.com/redpandadata/redpanda:v24.1.1
     command: |
@@ -135,5 +166,5 @@ services:
               url: http://connect:8083
 
 volumes:
-  # postgres_data:
+  postgres_data:
   qdrant_storage:
